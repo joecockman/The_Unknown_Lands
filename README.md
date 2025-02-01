@@ -2,7 +2,7 @@
 
 ![The Unknown Lands](The_Unknown_Lands.png)
 
-Welcome to the Unknown Lands. In order to practice my python skills I have created the following text input based adventure game. Creating this game has pulled together all of the Python that I have learnt so far, such as functions, loops, lists, dictionaries, and if, elif, else logic. The game works by beginning at the 'start_game' function and then jumping to different functions depending on the choices that are made.
+Welcome to the Unknown Lands. In order to practice my python skills I have created the following text input based adventure game. Creating this game has pulled together all of the Python that I have learnt so far, such as functions, loops, lists, dictionaries, and 'if', 'elif', 'else' logic. The game works by beginning at the 'start_game()' function and then jumping to different functions depending on the choices that are made.
 
 In the game you can collect and even trade items which are then added to your inventory and can be used later. Sound effects play and the music changes according to different choices you make and also, in classic dungeons and dragons style, many decisions are influenced by the outcome of the player rolling a 20 sided dice.
 
@@ -12,10 +12,7 @@ The game file can be found in the repository for anyone who would like to downlo
 
 Read on for descriptions of how I put specific parts of the game together and why I made the specific decisions that I made.
 
-## How to Play
-
-
-# Imported Modules
+## Imported Modules
 ```
 from colorama import Fore, Back, Style, init
 init(autoreset=True)
@@ -41,6 +38,9 @@ collected_items = {"cool rock - cave entrance": None, "cool rock - secret room":
 characters = {"knight": None}
 total_dance_score = 0
 ```
+Inventory is set as an empty dictionary which is updated when items are found using the add_to_inventory() function, detailed below. 'Achievements' works in the same way, storing achievements that are printed at the time and then published in full at the end of the game.
+
+The 'collected_items' dictionary sets all items in the game to have a value of 'None'. When the player finds them, the value is changed to 'Found'. I then built my functions to behave differently if the item was found or not found, preventing players from finding the same items over and over again. This is similar for the 'characters' dictionary, which ensures characters you meet are not greeting you over and over again.
 
 ## Inventory + Item Related Functions
 ```
@@ -85,6 +85,9 @@ def show_found_items():
         if status == "Found.":
             print(Fore.CYAN + f"- {item}: {status}")
 ```
+These functions are all related to items and achievements you obtain while playing. add_to_inventory() adds items to your inventory using the syntax add_to_inventory(item).
+
+show_achievements() and show_found_items() are both displayed at the end of the game.
 
 ## Dice Rolling Functions
 ```        
@@ -134,6 +137,10 @@ def tie_breaker():
             tie_break()
             break
 ```
+
+Luck_check() is used throughout the game to give the player the option to roll a 20 sided dice. There are 4 potential outcomes to each role, as displayed in the function, ranging from critical failure to critical success.
+
+The other two functions are similar but used specifically for part of the story near the end of the game and required slightly differene values.
 
 ## Music and Sound Effects
 ```
@@ -216,6 +223,9 @@ knight_hum_sound = pygame.mixer.Sound(get_path("knight_hum.wav"))
 spooky_wind_sound = pygame.mixer.Sound(get_path("spooky_wind.wav"))
 owl_sound = pygame.mixer.Sound(get_path("owl_hooting.wav"))
 ```
+I used pygame to play the music and sounds found in the game. I created fucntions for the different tracks that pause the current music, and then load and play the new one. The sounds i used were sourced from freesounds.org.
+
+Below is the full game code.
 
 ## Main Game Code
 ```
