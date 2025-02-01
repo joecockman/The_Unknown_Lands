@@ -1,6 +1,6 @@
 # The_Unknown_Lands
 
-![The Unknown Lands](The_Unknown_Lands.png)
+![The Unknown Lands](The_Unknown_Lands_Banner.png)
 
 Welcome to the Unknown Lands. In order to practice my python skills I have created the following text input based adventure game. Creating this game has pulled together all of the Python that I have learnt so far, such as functions, loops, lists, dictionaries, and 'if', 'elif', 'else' logic. The game works by beginning at the 'start_game()' function and then jumping to different functions depending on the choices that are made.
 
