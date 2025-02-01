@@ -12,6 +12,8 @@ The game file can be found in the repository for anyone who would like to downlo
 
 Read on for descriptions of how I put specific parts of the game together and why I made the specific decisions that I made.
 
+## How to Play
+
 
 # Imported Modules
 ```
@@ -217,6 +219,7 @@ owl_sound = pygame.mixer.Sound(get_path("owl_hooting.wav"))
 
 ## Main Game Code
 ```
+# Main Game Code
 def start_game():
     print(Style.BRIGHT + Fore.RED + "Welcome to the Unknown Lands!")
     print(Fore.GREEN + "---------------------------------")
@@ -1277,7 +1280,23 @@ def sit_with_knight():
             else:
                 try_again_sound.play()
                 print("Invalid choice. Please type 'yes' or 'no'.")
-    
+
+def sit_with_knight_2():
+    print(Fore.GREEN + "---------------------------------")
+    print("It's nice to meet you, my name is Tony Harrison.")
+    print("I've been in these lands for a long time, mainly because of the rocks.")
+    print("There are some cool rocks around here, some really cool rocks, if you look closely for them.")
+    print("Say, if you had any cool rocks I'd be veyr happy to trade for them if you were interested?")
+    while True:
+        choice = input("'trade' or 'decline'? ")
+        if choice == "trade":
+            knight_trade_scene()
+            break
+        if choice == "decline":
+            decline_scene()
+            break
+        else:
+            print("Invalid choice. Please type 'trade' or 'decline'")
 
 def turn_around():
     main_music()
@@ -1555,7 +1574,7 @@ def knight_trade_scene():
                 print(Fore.GREEN + "---------------------------------")
                 print("'Ah, they are hard to find aren't they! Please do come back if you see any!'")
                 while True:
-                    choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                    choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                     if choice_2 == "continue sitting":
                         choice_sound.play()
                         continue_sitting_scene()
@@ -1576,7 +1595,7 @@ def knight_trade_scene():
                     print("'Thankyou traveller! Just 2 more and the wig is yours!'")
                     print("1 'cool rock(s)' removed from inventory.")
                     while True:
-                        choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                        choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                         if choice_2 == "continue sitting":
                             choice_sound.play()
                             continue_sitting_scene()
@@ -1594,7 +1613,7 @@ def knight_trade_scene():
                     print("'Fantastic stuff! Just 1 more and the wig is yours!'")
                     print("1 'cool rock(s)' removed from inventory.")
                     while True:
-                        choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                        choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                         if choice_2 == "continue sitting":
                             choice_sound.play()
                             continue_sitting_scene()
@@ -1615,7 +1634,7 @@ def knight_trade_scene():
                     inventory_sound.play()
                     collected_items["giant's wig"] = "Found."
                     while True:
-                        choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                        choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                         if choice_2 == "continue sitting":
                             choice_sound.play()
                             continue_sitting_scene()
@@ -1636,7 +1655,7 @@ def knight_trade_scene():
                     print("'Fantastic stuff! Just 1 more and the wig is yours!'")
                     print("2 'cool rock(s)' removed from inventory.")
                     while True:
-                        choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                        choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                         if choice_2 == "continue sitting":
                             choice_sound.play()
                             continue_sitting_scene()
@@ -1657,7 +1676,7 @@ def knight_trade_scene():
                     inventory_sound.play()
                     collected_items["giant's wig"] = "Found."
                     while True:
-                        choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                        choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                         if choice_2 == "continue sitting":
                             choice_sound.play()
                             continue_sitting_scene()
@@ -1680,7 +1699,7 @@ def knight_trade_scene():
                 inventory_sound.play()
                 collected_items["giant's wig"] = "Found."
                 while True:
-                    choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+                    choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
                     if choice_2 == "continue sitting":
                         choice_sound.play()
                         continue_sitting_scene()
@@ -1695,7 +1714,7 @@ def knight_trade_scene():
         if choice == "no":
             print(Fore.GREEN + "---------------------------------")
             print("'Worry not traveller! I'll be here if you change your mind!'")
-            choice_2 = input("Continue sitting with the knight? Or leave the campfire?")
+            choice_2 = input("Continue sitting with the knight? Or leave the campfire? ")
             if choice_2 == "continue sitting":
                 choice_sound.play()
                 continue_sitting_scene()
