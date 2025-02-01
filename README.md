@@ -168,12 +168,12 @@ def get_path(filename):
 
     return os.path.join(base_path, filename)
 
-main_music_file = get_path("The Unknown Lands Music.wav")
-dance_music_file = get_path("dance music.wav")
-victory_music_file = get_path("victory_music.wav")
-game_over_music_file = get_path("game over.wav")
-slot_machine_music_file = get_path("slot_machine_music.mp3")
-knight_acoustic_music_file = get_path("knight_acoustic.wav")
+main_music_file = get_path(os.path.join("sounds", "The Unknown Lands Music.wav"))
+dance_music_file = get_path(os.path.join("sounds", "dance music.wav"))
+victory_music_file = get_path(os.path.join("sounds", "victory_music.wav"))
+game_over_music_file = get_path(os.path.join("sounds", "game over.wav"))
+slot_machine_music_file = get_path(os.path.join("sounds", "slot_machine_music.mp3"))
+knight_acoustic_music_file = get_path(os.path.join("sounds", "knight_acoustic.wav"))
 
 pygame.mixer.music.load(main_music_file)
 pygame.mixer.music.set_volume(0.5)  
@@ -209,19 +209,19 @@ def knight_acoustic_song():
     pygame.mixer.music.load(resource_path(knight_acoustic_music_file))
     pygame.mixer.music.play(loops=-1)
 
-choice_sound = pygame.mixer.Sound(get_path("Choice.wav"))
-inventory_sound = pygame.mixer.Sound(get_path("Add to inventory.mp3"))
-achievement_sound = pygame.mixer.Sound(get_path("achievement unlocked.mp3"))
-laugh_sound = pygame.mixer.Sound(get_path("Lantern Man Laugh.wav"))
-stern_sound = pygame.mixer.Sound(get_path("Stern reaction.wav"))
-try_again_sound = pygame.mixer.Sound(get_path("Try again.wav"))
-dice_sound = pygame.mixer.Sound(get_path("dice sound.mp3"))
-game_over_sound = pygame.mixer.Sound(get_path("game over.wav"))
-giant_roar_sound = pygame.mixer.Sound(get_path("giant_roar.wav"))
-secret_door_sound = pygame.mixer.Sound(get_path("secret_door.wav"))
-knight_hum_sound = pygame.mixer.Sound(get_path("knight_hum.wav"))
-spooky_wind_sound = pygame.mixer.Sound(get_path("spooky_wind.wav"))
-owl_sound = pygame.mixer.Sound(get_path("owl_hooting.wav"))
+choice_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Choice.wav")))
+inventory_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Add to inventory.mp3")))
+achievement_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "achievement unlocked.mp3")))
+laugh_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Lantern Man Laugh.wav")))
+stern_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Stern reaction.wav")))
+try_again_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Try again.wav")))
+dice_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "dice sound.mp3")))
+game_over_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "game over.wav")))
+giant_roar_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "giant_roar.wav")))
+secret_door_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "secret_door.wav")))
+knight_hum_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "knight_hum.wav")))
+spooky_wind_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "spooky_wind.wav")))
+owl_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "owl_hooting.wav")))
 ```
 I used pygame to play the music and sounds found in the game. I created fucntions for the different tracks that pause the current music, and then load and play the new one. The sounds i used were sourced from freesounds.org.
 
@@ -229,7 +229,6 @@ Below is the full game code.
 
 ## Main Game Code
 ```
-# Main Game Code
 def start_game():
     print(Style.BRIGHT + Fore.RED + "Welcome to the Unknown Lands!")
     print(Fore.GREEN + "---------------------------------")
@@ -1293,20 +1292,23 @@ def sit_with_knight():
 
 def sit_with_knight_2():
     print(Fore.GREEN + "---------------------------------")
-    print("It's nice to meet you, my name is Tony Harrison.")
-    print("I've been in these lands for a long time, mainly because of the rocks.")
-    print("There are some cool rocks around here, some really cool rocks, if you look closely for them.")
-    print("Say, if you had any cool rocks I'd be veyr happy to trade for them if you were interested?")
+    print("Nice to meet you. My name is Tony Harrison.")
+    print("I've been in the Unknown Lands a long time, I've collected a lot of cool stuff.")
+    print("What I'm most interested in is the rocks though. There are some really cool rocks around if you look hard enough.")
+    print("You haven't seen any around have you? I'd be willing to trade for them.")
     while True:
-        choice = input("'trade' or 'decline'? ")
+        choice = input("Trade with the knight? Or decline offer?")
         if choice == "trade":
+            choice_sound.play()
             knight_trade_scene()
             break
         if choice == "decline":
+            choice_sound.play()
             decline_scene()
             break
         else:
-            print("Invalid choice. Please type 'trade' or 'decline'")
+            try_again_sound.play()
+            print("Invalid choice. Please type 'trade' or 'decline'.")
 
 def turn_around():
     main_music()
@@ -1529,11 +1531,87 @@ def ask_for_lantern_2():
             else:
                 try_again_sound.play()
                 print("Invalid choice. Please type 'cave' or 'path'.")
+
+def lantern_man_fight():
+    print(Fore.GREEN + "---------------------------------")
+    print("Perhaps something in your inventory can help you fight back? Or maybe it's safer to run away?")
+    show_inventory()
+    while True:
+        choice = input("'Use item'? Run back towards the 'cave'? or run down the 'path'? ").lower()
+        if choice == "show inventory:":
+            show_inventory()
+        elif choice == "use item":
+            choice_sound.play()
+            lantern_man_fight_2()
+            break
+        elif choice == "cave":
+            choice_sound.play()
+            cave_scene()
+            break
+        elif choice == "path":
+            choice_sound.play()
+            path_continues()
+            break
+        else:
+            try_again_sound.play()
+            print("Invalid choice. Please type 'show inventory, 'cave', 'path' or the name of an item.")
+
+def turn_back_to_knight():
+    print(Fore.GREEN + "---------------------------------")
+    print("You turn and walk back towards the knight. do you sit with him? Or continue back down the path towards the lantern man?")
+    while True:
+        choice = input("'sit' with knight? Or 'continue' back down the path? ")
+        if choice == "sit":
+            choice_sound.play()
+            sit_with_knight()
+            break
+        if choice == "continue":
+            choice_sound.play()
+            turn_around()
+            break
+        else:
+            try_again_sound.play()
+            print("Invalid choice. Please type 'sit' or 'continue'")
+
+def death_by_darkness():
+    print(Fore.GREEN + "---------------------------------")
+    print("The darkness sits heavy on you, weighing you down.")
+    print("Unless something in your inventory can help you, your adventure may end here.")
+    show_inventory()
+    print("Type item name to use item.")
+    while True:
+        choice = input("type item name: ")
+        if choice == "lantern man's lantern":
+            choice_sound.play()
+            into_the_darkness()
+            break
+        else:
+            print("This item has no use here and cannot save you.")
+            print("The darkness presses in on you and the world fades to black.")
+            print("Your adventure ends here.")
+            game_over()
+            break
+            
+def secret_tunnel_2():
+    print("---------------------------------")
+    print("There is nothing else to find in the room, but you have a new found respect for this talented talented giant.")
+    print("You exit the room via the tunnel and sneek back to the cave entrance. The door to the secret room shuts behind you.")
+    print("Do you keep exploring the rest of the cave? Or leave the cave and take the path?")
+    while True:
+        choice = input("'keep exploring' rest of cave? or 'leave' and take the path? ")
+        if choice == "keep exploring":
+            choice_sound.play()
+            proceed_scene()
+            break
+        if choice == "leave":
+            choice_sound.play()
+            path_scene()
+            break
+        else:
+            try_again_sound.play()
+            print("Invalid choice. Please type 'keep exploring' or 'leave'.")
     
-
-
 #Level 8
-
 def gloat_scene():
     print(Fore.GREEN + "---------------------------------")
     print("What do you say to gloat to the lantern man?")
