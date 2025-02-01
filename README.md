@@ -1,5 +1,7 @@
 # The_Unknown_Lands
 
+![ELFL League Banner](Screenshots/ELFL-Banner-2.png)
+
 Welcome to the Unknown Lands. In order to practice my python skills I have created the following text input based adventure game. Creating this game has pulled together all of the Python that I have learnt so far, such as functions, loops, lists, dictionaries, and if, elif, else logic. The game works by beginning at the 'start_game' function and then jumping to different functions depending on the choices that are made.
 
 In the game you can collect and even trade items which are then added to your inventory and can be used later. Sound effects play and the music changes according to different choices you make and also, in classic dungeons and dragons style, many decisions are influenced by the outcome of the player rolling a 20 sided dice.
