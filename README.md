@@ -1,6 +1,6 @@
 # The Unknown Lands
 
-![The Unknown Lands](Images/The_Unknown_Lands_Banner.png)
+![The Unknown Lands](Images/screenshot_1.png)
 
 Welcome to the Unknown Lands. In order to practice my python skills I have created the following text input based adventure game. Creating this game has pulled together all of the Python that I have learnt so far, such as functions, loops, lists, dictionaries, and 'if', 'elif', 'else' logic. The game works by beginning at the 'start_game()' function and then jumping to different functions depending on the choices that are made.
 
@@ -8,11 +8,57 @@ In the game you can collect and even trade items which are then added to your in
 
 Creating this game has been an incredibly useful and enjoyable practice of using python. This is my first solely python based project and after completing a bootcamp and learning the language through online courses, it has been great to genuinely use this knowledge to create something real rather than just practicing the skills in isolation.
 
-The game file can be found in the repository for anyone who would like to download and play. I created the game on Mac however so it is only set up for Mac OS.
+# How to Play:
+
+## Step 1: Install Required Software.
+Before running the game, ensure you have the following installed by opening the terminal / command prompt and typing the following:
+```
+Python 3.12 (Check with: python3 --version)
+pip (Check with: pip3 --version)
+Git (Check with: git --version)
+```
+## Step 2: Navigate to Desired Download Folder.
+In your terminal / command prompt, navigate to the folder you would like to download to using the cd command:
+
+Mac example: 
+```
+cd /Users/name/Desktop
+```
+Windows example:
+```
+cd \Users\name\Desktop
+```
+## Step 3: Clone the Github Repository.
+In your terminal / command prompt, clone the github repository into your desired folder using the following command:
+```
+git clone <https://github.com/joecockman/The-Unknown-Lands>
+```
+## Step 4: Navigate to the Game Folder.
+Now the game is downloaded, navigate to that folder using the cd command:
+
+Mac example:
+```
+cd /The_Unknown_Lands
+```
+Windows example:
+```
+cd \The_Unknown_Lands
+```
+## Step 5: Install requirements.
+Use the following code in the terminal to download required python libraries:
+```
+pip3 install -r requirements.txt
+```
+## Step 6: Run the game.
+Use the following command to run the game:
+```
+python3 The_Unknown_Lands.py
+```
+## Step 7: Have fun and Good Luck!
 
 Read on for descriptions of how I put specific parts of the game together and why I made the specific decisions that I made.
 
-## Imported Modules
+# Imported Modules
 ```
 from colorama import Fore, Back, Style, init
 init(autoreset=True)
@@ -29,12 +75,12 @@ import os
 import sys
 ```
 
-## Essential Inventories and Lists
+# Essential Inventories and Lists
 ```
 inventory = {}
 knight_inventory = {"giants's wig": 1, "cool rock": 2}
-achievements = {}
-collected_items = {"cool rock - cave entrance": None, "cool rock - secret room": None, "cool rock - rollerskates": None, "cool rock - secret secret room": None, "mysterious token - cave end": None, "mysterious token - unknown things": None, "mysterious token - from a successful gloat": None, "mysterious token - lantern man fight": None, "the book of stern faces colouring book": None, "rollerskates": None, "torch": None, "lantern man's lantern": None, "train tickets": None, "giant's wig": None, "200m Olympic gold medal": None, "lantern man sticker": None}
+achievements = {"Usain Bolt": None, "The double": None, "Amongst the Lantern Men": None, "Boogie on Down": None, "Terrible Dancer": None, "Dancing Queen": None, "Terrible Singer": None, "Like Freddie Mercury at Bandaid": None, "Terrible Groveller": None, "Wallace and Grovel": None, "Find Inner Peace": None, "Fizzy Boy": None, "Lanternwood Inc": None, "Varnishpark": None, "rickrolled in the unknown lands": None}
+collected_items = {"cool rock - cave entrance": None, "cool rock - secret room": None, "cool rock - rollerskates": None, "cool rock - secret secret room": None, "mysterious tokens - cave end": None, "mysterious token - unknown things": None, "mysterious token - from a successful gloat": None, "mysterious token - lantern man fight": None, "the book of stern faces colouring book": None, "rollerskates": None, "torch": None, "lantern man's lantern": None, "train tickets": None, "giant's wig": None, "200m Olympic gold medal": None, "lantern man sticker": None, "horn of the unknown things": None}
 characters = {"knight": None}
 total_dance_score = 0
 ```
@@ -42,9 +88,8 @@ Inventory is set as an empty dictionary which is updated when items are found us
 
 The 'collected_items' dictionary sets all items in the game to have a value of 'None'. When the player finds them, the value is changed to 'Found'. I then built my functions to behave differently if the item was found or not found, preventing players from finding the same items over and over again. This is similar for the 'characters' dictionary, which ensures characters you meet are not greeting you over and over again.
 
-## Inventory + Item Related Functions
+# Inventory + Item Related Functions
 ```
-# Inventory Functions
 def add_to_inventory(item, quantity = 1):
     if item in inventory:
         inventory[item] += quantity
@@ -64,7 +109,7 @@ def use_item(item):
 
 def show_inventory():
     if len(inventory) > 0:
-        print(Fore.MAGENTA + "Your inventory contains:")
+        print(Fore.MAGENTA + "Your Inventory Contains:")
         for item, quantity in inventory.items():
             print(Fore.LIGHTMAGENTA_EX + f"- {item}: {quantity}")
     else:
@@ -72,10 +117,13 @@ def show_inventory():
 
 def show_achievements():
     print(Fore.GREEN + "---------------------------------")
-    print(Fore.GREEN + Style.BRIGHT + "Your unlocked achievements:")
-    for item, quantity in achievements.items():
-        print(Fore.GREEN + f"- {item}: {quantity}")
-    else:
+    print(Fore.GREEN + Style.BRIGHT + "Your Unlocked Achievements:")
+    found = False
+    for item, status in achievements.items():
+        if status == "Completed":
+            print(Fore.GREEN + f"- {item}: {status}")
+            found = True
+    if found == False:
         print("You unlocked no achievements.")
 
 def show_found_items():
@@ -89,7 +137,7 @@ These functions are all related to items and achievements you obtain while playi
 
 show_achievements() and show_found_items() are both displayed at the end of the game.
 
-## Dice Rolling Functions
+# Dice Rolling Functions
 ```        
 # Luck Check
 
@@ -142,92 +190,85 @@ Luck_check() is used throughout the game to give the player the option to roll a
 
 The other two functions are similar but used specifically for part of the story near the end of the game and required slightly differene values.
 
-## Music and Sound Effects
+# Music and Sound Effects
 ```
-def resource_path(relative_path):
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.getcwd(), relative_path)
+pygame.init()
+pygame.mixer.init()
 
-pygame.mixer.music.load(resource_path("The Unknown Lands Music.wav"))
+# Function to get the correct path for resources
+def get_path(filename):
+    if getattr(sys, 'frozen', False):  # If the program is running from a frozen .exe
+        base_path = sys._MEIPASS  # _MEIPASS is where PyInstaller stores files
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))  # Use current directory
+
+    return os.path.join(base_path, 'sounds', filename)  # Join with 'sounds' folder
+
+main_music_file = get_path("The Unknown Lands Music.wav")
+dance_music_file = get_path("dance music.wav")
+victory_music_file = get_path("victory_music.wav")
+game_over_music_file = get_path("game over.wav")
+slot_machine_music_file = get_path("slot_machine_music.mp3")
+knight_acoustic_music_file = get_path("knight_acoustic.wav")
+
+pygame.mixer.music.load(main_music_file)
 pygame.mixer.music.set_volume(0.5) 
 pygame.mixer.music.play(loops=-1)
 
-def play_sound(file_path):
-    try:
-        sound = Audio(file_path, autoplay=True)  
-        display(sound) 
-    except Exception as e:
-        print(f"Error playing sound: {e}")
-
-def get_path(filename):
-    if getattr(sys, 'frozen', False):
-        base_path = sys._MEIPASS
-    else:
-        base_path = os.path.abspath(".")  
-
-    return os.path.join(base_path, filename)
-
-main_music_file = get_path(os.path.join("sounds", "The Unknown Lands Music.wav"))
-dance_music_file = get_path(os.path.join("sounds", "dance music.wav"))
-victory_music_file = get_path(os.path.join("sounds", "victory_music.wav"))
-game_over_music_file = get_path(os.path.join("sounds", "game over.wav"))
-slot_machine_music_file = get_path(os.path.join("sounds", "slot_machine_music.mp3"))
-knight_acoustic_music_file = get_path(os.path.join("sounds", "knight_acoustic.wav"))
-
-pygame.mixer.music.load(main_music_file)
-pygame.mixer.music.set_volume(0.5)  
-pygame.mixer.music.play(-1) 
-
+# Music control functions
 def dance_off_music():
     pygame.mixer.music.pause()
-    pygame.mixer.music.load(resource_path("dance music.wav"))
+    pygame.mixer.music.load(dance_music_file)
     pygame.mixer.music.play(loops=-1)
 
 def main_music():
     pygame.mixer.music.pause()
-    pygame.mixer.music.load(resource_path("The Unknown Lands Music.wav"))
+    pygame.mixer.music.load(main_music_file)
     pygame.mixer.music.play(loops=-1)
 
 def victory_song():
     pygame.mixer.music.stop()
-    pygame.mixer.music.load(resource_path(victory_music_file))
+    pygame.mixer.music.load(victory_music_file)
     pygame.mixer.music.play(loops=-1)
 
 def game_over_song():
     pygame.mixer.music.pause()
-    pygame.mixer.music.load(resource_path(game_over_music_file))
+    pygame.mixer.music.load(game_over_music_file)
     pygame.mixer.music.play(loops=-1)
 
 def slot_machine_song():
     pygame.mixer.music.pause()
-    pygame.mixer.music.load(resource_path(slot_machine_music_file))
+    pygame.mixer.music.load(slot_machine_music_file)
     pygame.mixer.music.play(loops=-1)
 
 def knight_acoustic_song():
     pygame.mixer.music.pause()
-    pygame.mixer.music.load(resource_path(knight_acoustic_music_file))
+    pygame.mixer.music.load(knight_acoustic_music_file)
     pygame.mixer.music.play(loops=-1)
 
-choice_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Choice.wav")))
-inventory_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Add to inventory.mp3")))
-achievement_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "achievement unlocked.mp3")))
-laugh_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Lantern Man Laugh.wav")))
-stern_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Stern reaction.wav")))
-try_again_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "Try again.wav")))
-dice_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "dice sound.mp3")))
-game_over_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "game over.wav")))
-giant_roar_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "giant_roar.wav")))
-secret_door_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "secret_door.wav")))
-knight_hum_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "knight_hum.wav")))
-spooky_wind_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "spooky_wind.wav")))
-owl_sound = pygame.mixer.Sound(get_path(os.path.join("sounds", "owl_hooting.wav")))
+choice_sound = pygame.mixer.Sound(get_path("Choice.wav"))
+inventory_sound = pygame.mixer.Sound(get_path("Add to inventory.mp3"))
+achievement_sound = pygame.mixer.Sound(get_path("achievement unlocked.mp3"))
+laugh_sound = pygame.mixer.Sound(get_path("Lantern Man Laugh.wav"))
+stern_sound = pygame.mixer.Sound(get_path("Stern reaction.wav"))
+try_again_sound = pygame.mixer.Sound(get_path("Try again.wav"))
+dice_sound = pygame.mixer.Sound(get_path("dice sound.mp3"))
+game_over_sound = pygame.mixer.Sound(get_path("game over.wav"))
+giant_roar_sound = pygame.mixer.Sound(get_path("giant_roar.wav"))
+secret_door_sound = pygame.mixer.Sound(get_path("secret_door.wav"))
+knight_hum_sound = pygame.mixer.Sound(get_path("knight_hum.wav"))
+spooky_wind_sound = pygame.mixer.Sound(get_path("spooky_wind.wav"))
+owl_sound = pygame.mixer.Sound(get_path("owl_hooting.wav"))
 ```
 I used pygame to play the music and sounds found in the game. I created fucntions for the different tracks that pause the current music, and then load and play the new one. The sounds i used were sourced from freesounds.org.
 
-Below is the full game code.
+# Game Screenshot
 
-## Main Game Code
+![The Unknown Lands](Images/screenshot_2.png)
+
+Below is the full game code. The whole code can also be found in the .py file in the repository.
+
+# Main Game Code
 ```
 def start_game():
     main_music()
