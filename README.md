@@ -230,6 +230,17 @@ Below is the full game code.
 ## Main Game Code
 ```
 def start_game():
+    main_music()
+    global total_dance_score, knight_inventory
+    total_dance_score = 0
+    for key in collected_items:
+        collected_items[key] = None
+    for key in characters:
+        characters[key] = None
+    for key in achievements:
+        achievements[key] = None
+    inventory.clear() 
+    knight_inventory = {"giants's wig": 1, "cool rock": 2}
     print(Style.BRIGHT + Fore.RED + "Welcome to the Unknown Lands!")
     print(Fore.GREEN + "---------------------------------")
     print("You wake up in a dark forest. The air is cold, and the sounds of distant animals echo around you.")
@@ -358,7 +369,7 @@ def torch_scene():
         print("It seems to be some sort of riddle:")
         print("-- Is Joe wasting his time by creating this adventure game?--")
         while True:
-            answer = input("Your answer:").lower()
+            answer = input("Your answer: ").lower()
             if answer == "no":
                 choice_sound.play()
                 riddle_success()
@@ -375,7 +386,7 @@ def torch_scene():
         print("It seems to be some sort of riddle:")
         print("-- Is Joe wasting his time by creating this adventure game?--")
         while True:
-            answer = input("Your answer:").lower()
+            answer = input("Your answer: ").lower()
             if answer == "no":
                 choice_sound.play()
                 riddle_success()
@@ -453,7 +464,7 @@ def right_path_death():
 def joke_scene():
     print(Fore.GREEN + "---------------------------------")
     while True:
-        joke = input("Type your joke to the lantern man:")
+        joke = input("Type your joke to the lantern man: ")
         if joke == "":
             try_again_sound.play()
             print("Please type a joke for the lantern man.")
@@ -465,7 +476,7 @@ def joke_scene():
 def stern_scene():
     print(Fore.GREEN + "---------------------------------")
     while True:
-        comment = input("Type what you say to the lantern man:")
+        comment = input("Type what you say to the lantern man: ")
         if comment == "":
             try_again_sound.play()
             print("Invalid choice. Please type something stern for the lantern man.")
@@ -518,10 +529,11 @@ def cave_friends():
         print("The unknown things aren't interested in being your friend.. but they respect you enough to leave you alone.")
         the_cave_continues()
     else:
-        if collected_items["horn of the unknown"] is None:
+        if collected_items["horn of the unknown things"] is None:
             print("The unknown things make you their leader. Never have they seen such bravery.")
-            print("They hand you the horn of the unknown. You may play it to summon them if you need.")
-            add_to_inventory("Horn of the unknown")
+            print("They hand you the horn of the unknown things. It doesn't really do anything but they're obviously proud of it.")
+            add_to_inventory("Horn of the unknown things")
+            collected_items["horn of the unknown things"] = "Found."
             inventory_sound.play()
             the_cave_continues()
         else:
@@ -551,17 +563,17 @@ def cave_runners():
         print("The unknown things aren't interested in being your friend.. but they respect you enough to leave you alone.")
         the_cave_continues()
     else:
-        if collected_items["200m gold medal"] is None:
+        if collected_items["200m Olympic gold medal"] is None:
             print("You lose them in record time. An olympic official records your time and confirms with you after that you have broken the 200m world record.")
-            add_to_inventory("200m gold medal")
+            add_to_inventory("200m Olympic gold medal")
             achievement_sound.play()
             print("You hear the impressed gasps of the unknown as you flee.")
-            print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Usain Bolt - '9:59'")
+            print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Usain Bolt - '19:19'")
             achievements["Usain Bolt"] = "Completed"
             the_cave_continues()
         else:
             print("You've only gone and done it again! An even faster time than before. The record books are updated and a 2nd medal is awarded.")
-            add_to_inventory("200m gold medal")
+            add_to_inventory("200m Olympic gold medal")
             achievement_sound.play()
             print(Fore.CYAN + Style.BRIGHT + "ULTRA RARE ACHIEVEMENT UNLOCKED: The Double - Back to back like my man Usain!")
             achievements["The double"] = "Completed"
@@ -599,7 +611,7 @@ def joke_reaction():
             choice = input("'Continue' or 'head back'? ")
             if choice == "continue":
                 choice_sound.play()
-                path_continues()
+                skating_away()
                 break
             if choice == "head back":
                 choice_sound.play()
@@ -838,6 +850,10 @@ def hide_scene():
                 else:
                     try_again_sound.play()
                     print("Invalid choice. Please type 'yes' or 'no'.")
+        else:
+            print("You hide poorly and are quickly found, but not before glancing at where you saw that cool rock before.")
+            print("Damn that was a cool rock.")
+            hide_scene_2()
     else: 
         print("You hide so well that you discover a secret tunnel.")
         print("You climb through, the giant's roars echoing far behind you.")
@@ -846,7 +862,6 @@ def hide_scene():
             
 def hide_scene_2():
     print(Fore.GREEN + "---------------------------------")
-    giant_roar_sound.play()
     print("The giant picks you up in his enormous hand.")
     print("'The cave of urun is a sacred place. Any further exploration will cost you.'")
     print("Perhaps something from your inventory will appease the giant?")
@@ -887,10 +902,13 @@ def stand_tall_scene():
 def the_cave_continues_2():
     print(Fore.GREEN + "---------------------------------")
     print("You walk on for a time but you reach a dead end.")
-    if collected_items["mysterious token - cave end"] is None:
+    if collected_items["mysterious tokens - cave end"] is None:
         print("You do notice something sparkling on the ground however.")
-        add_to_inventory("mysterious token")
         inventory_sound.play()
+        token_list = [1,2,3]
+        token_list_length = len(token_list)
+        for token in range(token_list_length):
+            add_to_inventory("mysterious token")
         collected_items["mysterious token - cave end"] = "Found."
         print("You inspect the end of cave but there is no further route. You turn back towards the entrance.")
         back_towards_cave_entrance()
@@ -906,27 +924,43 @@ def dance_for_your_life():
         print("Your dancing incites a frenzy of hatred. The unknown things devour you instantly.")
         print(Fore.RED + "Your adventure ends here.")
         print(Fore.GREEN + Style.BRIGHT + + "achievement Unlocked: Death by Dancing - Boogie on down.. to hell.")
-        achievements["Boogie on Down"] = "Completed."
+        achievements["Boogie on Down"] = "Completed"
         game_over()
     if 1 < roll <= 10:
         print("Your dancing is poor, but the unknown things pity you greatly. They leave you alone and retreat to the darkness.")
-        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Terrible Dancer - A dance so poor they wanted no more.")
-        achievements["Terrible Dancer"] = "Completed"
-        achievement_sound.play()
-        print("Do you carry on into the cave or head back towards the entrance?")
-        while True:
-            choice = input("'Carry on'? or 'head back? ").lower()
-            if choice == "carry on":
-                choice_sound.play()
-                the_cave_continues()
-                break
-            if choice == "head back":
-                choice_sound.play()
-                back_towards_cave_entrance()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'carry on' or 'head back'.")
+        if achievements["Terrible Dancer"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Terrible Dancer - A dance so poor they wanted no more.")
+            achievements["Terrible Dancer"] = "Completed"
+            achievement_sound.play()
+            print("Do you carry on into the cave or head back towards the entrance?")
+            while True:
+                choice = input("'Carry on'? or 'head back? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+        else:
+            print("Do you carry on into the cave or head back towards the entrance?")
+            while True:
+                choice = input("'Carry on'? or 'head back? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
     if 10 < roll <= 19:
         print("Your dancing is impressive. The unknown things applaud before skulking away into the shadows.")
         print("The cave is quiet once more.")
@@ -947,24 +981,41 @@ def dance_for_your_life():
     if roll == 20:
         print("You perform a dance so memorable that the unknown things are moved to tears.")
         print("A standing ovation is no less than you deserve, the applause echoes through the cave.")
-        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Dancing Queen - Young and Sweet.")
-        achievements["Dancing Queen"] = "Completed"
-        achievement_sound.play()
-        print("The cave is quiet once more.")
-        print("Do you carry on into the cave? Or head back towards the cave entrance?")
-        while True:
-            choice = input("'carry on' or 'head back'? ").lower()
-            if choice == "carry on":
-                choice_sound.play()
-                the_cave_continues()
-                break
-            if choice == "head back":
-                choice_sound.play()
-                back_towards_cave_entrance()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'carry on' or 'head back'.")
+        if achievements["Dancing Queen"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Dancing Queen - Young and Sweet.")
+            achievements["Dancing Queen"] = "Completed"
+            achievement_sound.play()
+            print("The cave is quiet once more.")
+            print("Do you carry on into the cave? Or head back towards the cave entrance?")
+            while True:
+                choice = input("'carry on' or 'head back'? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+        else:
+            print("The cave is quiet once more.")
+            print("Do you carry on into the cave? Or head back towards the cave entrance?")
+            while True:
+                choice = input("'carry on' or 'head back'? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
 
 def sing_for_your_life():
     print(Fore.GREEN + "---------------------------------")
@@ -976,23 +1027,39 @@ def sing_for_your_life():
         game_over()
     if 1 < roll <= 10:
         print("Your singing is poor, but the unknown things pity you greatly. They leave you alone and retreat to the darkness.")
-        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Terrible Singer - A song so poor they wanted no more.")
-        achievements["Terrible Singer"] = "Completed"
-        achievement_sound.play()
-        print("Do you carry on into the cave or head back towards the entrance?")
-        while True:
-            choice = input("'Carry on'? or 'head back? ").lower()
-            if choice == "carry on":
-                choice_sound.play()
-                the_cave_continues()
-                break
-            if choice == "head back":
-                choice_sound.play()
-                back_towards_cave_entrance()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'carry on' or 'head back'.")
+        if achievements["Terrible Singer"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Terrible Singer - A song so poor they wanted no more.")
+            achievements["Terrible Singer"] = "Completed"
+            achievement_sound.play()
+            print("Do you carry on into the cave or head back towards the entrance?")
+            while True:
+                choice = input("'Carry on'? or 'head back? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+        else:
+            print("Do you carry on into the cave or head back towards the entrance?")
+            while True:
+                choice = input("'Carry on'? or 'head back? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
     if 10 < roll <= 19:
         print("Your singing is impressive. The unknown things applaud before skulking away into the shadows.")
         print("The cave is quiet once more.")
@@ -1013,24 +1080,41 @@ def sing_for_your_life():
     if roll == 20:
         print("You perform a song so memorable that the unknown things are moved to tears.")
         print("A standing ovation is no less than you deserve, the applause echoes through the cave.")
-        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Like Freddie Mercury at Bandaid - All time iconic performance.")
-        achievements["Like Freddie Mercury at Bandaid"] = "Completed"
-        achievement_sound.play()
-        print("The cave is quiet once more.")
-        print("Do you carry on into the cave? Or head back towards the cave entrance?")
-        while True:
-            choice = input("'carry on' or 'head back'? ").lower()
-            if choice == "carry on":
-                choice_sound.play()
-                the_cave_continues()
-                break
-            if choice == "head back":
-                choice_sound.play()
-                back_towards_cave_entrance()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'carry on' or 'head back'.")
+        if achievements["Like Freddie Mercury at Bandaid"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Like Freddie Mercury at Bandaid - All time iconic performance.")
+            achievements["Like Freddie Mercury at Bandaid"] = "Completed"
+            achievement_sound.play()
+            print("The cave is quiet once more.")
+            print("Do you carry on into the cave? Or head back towards the cave entrance?")
+            while True:
+                choice = input("'carry on' or 'head back'? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+        else:
+            print("The cave is quiet once more.")
+            print("Do you carry on into the cave? Or head back towards the cave entrance?")
+            while True:
+                choice = input("'carry on' or 'head back'? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
 
 def grovel_for_your_life():
     print(Fore.GREEN + "---------------------------------")
@@ -1042,23 +1126,39 @@ def grovel_for_your_life():
         game_over()
     if 1 < roll <= 10:
         print("Your grovelling is poor, but the unknown things pity you greatly. They leave you alone and retreat to the darkness.")
-        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Terrible Groveller - A grovel so poor they wanted no more.")
-        achievements["Terrible Groveller"] = "Completed"
-        achievement_sound.play()
-        print("Do you carry on into the cave or head back towards the entrance?")
-        while True:
-            choice = input("'Carry on'? or 'head back? ").lower()
-            if choice == "carry on":
-                choice_sound.play()
-                the_cave_continues()
-                break
-            if choice == "head back":
-                choice_sound.play()
-                back_towards_cave_entrance()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'carry on' or 'head back'.")
+        if achievements["Terrible Groveller"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Terrible Groveller - A grovel so poor they wanted no more.")
+            achievements["Terrible Groveller"] = "Completed"
+            achievement_sound.play()
+            print("Do you carry on into the cave or head back towards the entrance?")
+            while True:
+                choice = input("'Carry on'? or 'head back? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+        else:
+            print("Do you carry on into the cave or head back towards the entrance?")
+            while True:
+                choice = input("'Carry on'? or 'head back? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
     if 10 < roll <= 19:
         print("Your grovelling is impressive. The unknown things applaud before skulking away into the shadows.")
         print("The cave is quiet once more.")
@@ -1079,26 +1179,42 @@ def grovel_for_your_life():
     if roll == 20:
         print("You perform a grovel so memorable that the unknown things are moved to tears.")
         print("A standing ovation is no less than you deserve, the applause echoes through the cave.")
-        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Wallace and Grovel - A Close Cave.")
-        achievements["Wallace and Grovel"] = "Completed"
-        achievement_sound.play()
-        print("The cave is quiet once more.")
-        print("Do you carry on into the cave? Or head back towards the cave entrance?")
-        while True:
-            choice = input("'carry on' or 'head back'? ").lower()
-            if choice == "carry on":
-                choice_sound.play()
-                the_cave_continues()
-                break
-            if choice == "head back":
-                choice_sound.play()
-                back_towards_cave_entrance()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'carry on' or 'head back'.")
-    
-# Level 6
+        if achievements["Wallace and Grovel"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Wallace and Grovel - A Close Cave.")
+            achievements["Wallace and Grovel"] = "Completed"
+            achievement_sound.play()
+            print("The cave is quiet once more.")
+            print("Do you carry on into the cave? Or head back towards the cave entrance?")
+            while True:
+                choice = input("'carry on' or 'head back'? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+        else:
+            print("The cave is quiet once more.")
+            print("Do you carry on into the cave? Or head back towards the cave entrance?")
+            while True:
+                choice = input("'carry on' or 'head back'? ").lower()
+                if choice == "carry on":
+                    choice_sound.play()
+                    the_cave_continues()
+                    break
+                if choice == "head back":
+                    choice_sound.play()
+                    back_towards_cave_entrance()
+                    break
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'carry on' or 'head back'.")
+#Level 6
 def skating_away():
     print(Fore.GREEN + "---------------------------------")
     print("You skate away down the path, building up to a tremendous speed.")
@@ -1297,7 +1413,7 @@ def sit_with_knight_2():
     print("What I'm most interested in is the rocks though. There are some really cool rocks around if you look hard enough.")
     print("You haven't seen any around have you? I'd be willing to trade for them.")
     while True:
-        choice = input("Trade with the knight? Or decline offer?")
+        choice = input("Trade with the knight? Or decline offer? ")
         if choice == "trade":
             choice_sound.play()
             knight_trade_scene()
@@ -1550,7 +1666,7 @@ def lantern_man_fight():
             break
         elif choice == "path":
             choice_sound.play()
-            path_continues()
+            skating_away()
             break
         else:
             try_again_sound.play()
@@ -1558,6 +1674,7 @@ def lantern_man_fight():
 
 def turn_back_to_knight():
     print(Fore.GREEN + "---------------------------------")
+    main_music()
     print("You turn and walk back towards the knight. do you sit with him? Or continue back down the path towards the lantern man?")
     while True:
         choice = input("'sit' with knight? Or 'continue' back down the path? ")
@@ -1582,6 +1699,10 @@ def death_by_darkness():
     while True:
         choice = input("type item name: ")
         if choice == "lantern man's lantern":
+            choice_sound.play()
+            into_the_darkness()
+            break
+        if choice == "torch":
             choice_sound.play()
             into_the_darkness()
             break
@@ -1651,8 +1772,8 @@ def knight_trade_scene():
     print("What I'm really after is 3 more cool rocks.")
     print("If you can get me those, this fashionable giant's wig can be yours.")
     print("Do you have any cool rocks you could give me?")
-    print("Give cool rocks to knight?")
     while True:
+        print("Give cool rocks to knight?")
         choice = input("'Yes', 'no', or 'show inventory' ")
         if choice == "show inventory":
             show_inventory()
@@ -1835,7 +1956,7 @@ def decline_scene():
 
 def into_the_darkness():
     print(Fore.GREEN + "---------------------------------")
-    print("You use the lantern man's lantern and ward off the darkness.")
+    print("You ward off the darkness and walk on.")
     print("You see colourful lights in the distance. As you get closer you see it's a slot machine.")
     print("Behind it the path is so dark that even the lantern cannot brighten it.")
     print("Do you play the slot machine? or turn back?")
@@ -1995,23 +2116,39 @@ def continue_sitting_scene():
     print(Fore.GREEN + "---------------------------------")
     print("You lean back against a rock, the warm fire crackling in front of you.")
     print("The full moon sits like a silver coin in the sky. Maybe the Unknown Lands are actually quite beautiful. Maybe all of life is.")
-    print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Find Inner Peace - You are the whole universe.")
-    achievements["Find Inner Peace"] = "Completed."
-    achievement_sound.play()
-    print("You stand up after a time and consider your next move. Back towards the lantern man? Or onwards down the dark path?")
-    while True:
-        choice = input("'Back' or 'onwards' ").lower()
-        if choice == "back":
-            choice_sound.play()
-            turn_around()
-            break
-        if choice == "onwards":
-            choice_sound.play()
-            keep_walking()
-            break
-        else:
-            try_again_sound.play()
-            print("Invalid choice. Please type 'back' or 'onwards'.")
+    if achievements["Find Inner Peace"] is None:
+        print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Find Inner Peace - You are the whole universe.")
+        achievements["Find Inner Peace"] = "Completed"
+        achievement_sound.play()
+        print("You stand up after a time and consider your next move. Back towards the lantern man? Or onwards down the dark path?")
+        while True:
+            choice = input("'Back' or 'onwards' ").lower()
+            if choice == "back":
+                choice_sound.play()
+                turn_around()
+                break
+            if choice == "onwards":
+                choice_sound.play()
+                keep_walking()
+                break
+            else:
+                try_again_sound.play()
+                print("Invalid choice. Please type 'back' or 'onwards'.")
+    else:
+        print("You stand up after a time and consider your next move. Back towards the lantern man? Or onwards down the dark path?")
+        while True:
+            choice = input("'Back' or 'onwards' ").lower()
+            if choice == "back":
+                choice_sound.play()
+                turn_around()
+                break
+            if choice == "onwards":
+                choice_sound.play()
+                keep_walking()
+                break
+            else:
+                try_again_sound.play()
+                print("Invalid choice. Please type 'back' or 'onwards'.")
 
 def get_up_and_leave_scene():
     print(Fore.GREEN + "---------------------------------")
@@ -2036,7 +2173,7 @@ def lets_play_scene():
     print(Fore.GREEN + "---------------------------------")
     print("The slot machine seems to only take mysterious looking tokens.")
     show_inventory()
-    if inventory["mysterious token"] >= 1:
+    if inventory.get("mysterious token", 0) >= 1:
         choice_sound.play()
         lets_play_scene_2()
     else:
@@ -2058,112 +2195,197 @@ def lets_play_scene_2():
         add_to_inventory("Varnishwood Cola")
         inventory_sound.play()
         collected_items["Varnishwood Cola"] = "Found."
-        print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Fizzy boy - SO DAmn good")
-        achievements["Fizzy Boy"] = "Completed."
-        achievement_sound.play()
-        choice = input("play again? ").lower()
-        while True:
-            choice = input("play again? ")
-            if choice == "yes":
-                choice_sound.play()
-                if inventory["mysterious token"] >= 1:
-                    lets_play_scene()
+        if achievements["Fizzy Boy"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Fizzy boy - SO DAmn good")
+            achievements["Fizzy Boy"] = "Completed"
+            achievement_sound.play()
+            choice = input("play again? ").lower()
+            while True:
+                choice = input("play again? ")
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
+                    turn_back_to_knight()
                     break
                 else:
                     try_again_sound.play()
-                    print("Sorry, you have no more tokens. You turn away and walk back.")
+                    print("Invalid choice. Please type 'yes' or 'no'.")
+        else:
+            choice = input("play again? ").lower()
+            while True:
+                choice = input("play again? ")
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
                     turn_back_to_knight()
                     break
-            if choice == "no":
-                choice_sound.play()
-                turn_back_to_knight()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'yes' or 'no'.")
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'yes' or 'no'.")
+
     if 1 < roll <= 10:
         print("You receive a glossy photo of Varnishwood and the lantern man shaking hands and making some kind of deal.")
         print("It seems they have had some kind of business understanding in the past.")
         add_to_inventory("photo of Varnishwood and lantern man")
         inventory_sound.play()
         collected_items["photo of Varnishwood and lantern man"] = "Found."
-        print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Lanternwood Inc - A Light in the Boardroom.")
-        achievements["Lanternwood Inc"] = "Completed."
-        achievement_sound.play()
-        while True:
-            choice = input("play again? ").lower()
-            if choice == "yes":
-                choice_sound.play()
-                if inventory["mysterious token"] >= 1:
-                    lets_play_scene()
+        if achievements["Lanternwood Inc"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Lanternwood Inc - A Light in the Boardroom.")
+            achievements["Lanternwood Inc"] = "Completed"
+            achievement_sound.play()
+            while True:
+                choice = input("play again? ").lower()
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
+                    turn_back_to_knight()
                     break
                 else:
                     try_again_sound.play()
-                    print("Sorry, you have no more tokens. You turn away and walk back.")
+                    print("Invalid choice. Please type 'yes' or 'no'.")
+        else:
+            while True:
+                choice = input("play again? ").lower()
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
                     turn_back_to_knight()
                     break
-            if choice == "no":
-                choice_sound.play()
-                turn_back_to_knight()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'yes' or 'no'.")
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'yes' or 'no'.")
     if 10 < roll <= 19:
         print("You receive blueprints and schematics detailing a plan to develop the unknown lands into a car park.")
         print("It's titled: Varnishpark - A car place.")
         add_to_inventory("Varnishpark blueprints")
         inventory_sound.play()
         collected_items["Varnishpark blueprints"] = "Found."
-        print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Varnishpark - A place for cars.")
-        achievements["Varnishpark"] = "Completed."
-        achievement_sound.play()
-        while True:
-            choice = input("play again? ").lower()
-            if choice == "yes":
-                choice_sound.play()
-                if inventory["mysterious token"] >= 1:
-                    lets_play_scene()
+        if achievements["Varnishpark"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Varnishpark - A place for cars.")
+            achievements["Varnishpark"] = "Completed"
+            achievement_sound.play()
+            while True:
+                choice = input("play again? ").lower()
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
+                    turn_back_to_knight()
                     break
                 else:
                     try_again_sound.play()
-                    print("Sorry, you have no more tokens. You turn away and walk back.")
+                    print("Invalid choice. Please type 'yes' or 'no'.")
+        else:
+            while True:
+                choice = input("play again? ").lower()
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
                     turn_back_to_knight()
                     break
-            if choice == "no":
-                choice_sound.play()
-                turn_back_to_knight()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'yes' or 'no'.")
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'yes' or 'no'.")
     if roll == 20:
         print("Never gonna give you up. Never gonna let you down. Never gonna run around and desert you.")
         print("Never gonna make you cry. Never gonna say goodbye. Never gonna tell a lie and hurt you.")
-        print(Fore.GREEN + Style.BRIGHT + "achievement Unlocked: Rickrolled in the unknown lands - quite embarassing.")
-        achievements["rickrolled in the unknown lands"] = "Completed."
-        achievement_sound.play()
-        while True:
-            choice = input("play again? ").lower()
-            if choice == "yes":
-                choice_sound.play()
-                if inventory["mysterious token"] >= 1:
-                    lets_play_scene()
+        if achievements["rickrolled in the unknown lands"] is None:
+            print(Fore.GREEN + Style.BRIGHT + "Achievement Unlocked: Rickrolled in the unknown lands - quite embarassing.")
+            achievements["rickrolled in the unknown lands"] = "Completed"
+            achievement_sound.play()
+            while True:
+                choice = input("play again? ").lower()
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
+                    turn_back_to_knight()
                     break
                 else:
                     try_again_sound.play()
-                    print("Sorry, you have no more tokens. You turn away and walk back.")
+                    print("Invalid choice. Please type 'yes' or 'no'.")
+        else:
+            while True:
+                choice = input("play again? ").lower()
+                if choice == "yes":
+                    choice_sound.play()
+                    if inventory.get("mysterious token", 0) >= 1:
+                        lets_play_scene()
+                        break
+                    else:
+                        try_again_sound.play()
+                        print("Sorry, you have no more tokens. You turn away and walk back.")
+                        turn_back_to_knight()
+                        break
+                if choice == "no":
+                    choice_sound.play()
                     turn_back_to_knight()
                     break
-            if choice == "no":
-                choice_sound.play()
-                turn_back_to_knight()
-                break
-            else:
-                try_again_sound.play()
-                print("Invalid choice. Please type 'yes' or 'no'.")
-        
-
+                else:
+                    try_again_sound.play()
+                    print("Invalid choice. Please type 'yes' or 'no'.")
+    
 def back_towards_cave_entrance():
     print(Fore.GREEN + "---------------------------------")
     print("You arrive back at the entrance to the cave.")
@@ -2193,7 +2415,7 @@ def cave_scene_2():
         print("It seems to be some sort of riddle:")
         print("-- Is Joe wasting his time by creating this adventure game?--")
         while True:
-            answer = input("Your answer:").lower()
+            answer = input("Your answer: ").lower()
             if answer == "no":
                 choice_sound.play()
                 riddle_success()
@@ -2210,7 +2432,7 @@ def cave_scene_2():
         print("It seems to be some sort of riddle:")
         print("-- Is Joe wasting his time by creating this adventure game?--")
         while True:
-            answer = input("Your answer:").lower()
+            answer = input("Your answer: ").lower()
             if answer == "no":
                 choice_sound.play()
                 riddle_success()
@@ -2397,7 +2619,7 @@ def dance_winners():
     collected_items["train tickets"] = "Found."
     print("You step out of the ballroom onto a train platform and a giant steam train is waiting to leave.")
     print("Have you any last words for Thrug before you leave the Unknown Lands?")
-    input("Any last words")
+    input("Any last words: ")
     leaving_the_unknown_lands()
     
     
@@ -2457,4 +2679,5 @@ def game_over():
     #Main game loop
 if __name__ == "__main__":
     start_game()
+    
 ```
