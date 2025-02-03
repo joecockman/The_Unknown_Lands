@@ -972,7 +972,7 @@ def the_cave_continues_2():
         token_list_length = len(token_list)
         for token in range(token_list_length):
             add_to_inventory("mysterious token")
-        collected_items["mysterious token - cave end"] = "Found."
+        collected_items["mysterious tokens - cave end"] = "Found."
         print("You inspect the end of cave but there is no further route. You turn back towards the entrance.")
         back_towards_cave_entrance()
     else:
@@ -2593,13 +2593,15 @@ def giant_dance_scene():
     print("'It is I, Thrug. Thrug the Magnificent,' says the giant. 'I have returned.. returned with my glorious hair. And a glorious dance partner.'")
     print("'Forget it Thrug,' says one of the other giants, 'Dalrak the Sensational scored a stunning 40 points with a 5 minute dance. Do you really think you can beat that?'")
     print("Thrug looks at you. 'What do you think? Can we do this?'")
-    choice = input("Say something encouraging to Thrug ")
-    if choice == "":
-        try_again_sound.play()
-        print("Type some words of encouragement for Thrug.")
-    else:
-        choice_sound.play()
-        giant_dance_scene_2()
+    while True:
+        choice = input("Say something encouraging to Thrug ")
+        if choice == "":
+            try_again_sound.play()
+            print("Type some words of encouragement for Thrug.")
+        else:
+            choice_sound.play()
+            giant_dance_scene_2()
+            break
 
 def giant_dance_scene_2():
     print(Fore.GREEN + "---------------------------------")
