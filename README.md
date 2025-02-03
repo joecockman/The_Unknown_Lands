@@ -25,7 +25,7 @@ Git
 ```
 git --version
 ```
-If you are missing python and pip, go to [this link](https://www.python.org/downloads/) to download the latest version of python. pip should also be downnloaded with this. Run the above codes again after download to check it has been successful.
+If you are missing python and pip, go to [this link](https://www.python.org/downloads/) to download the latest version of python. pip should also be downloaded with this. Run the above codes again after download to check it has been successful.
 
 If you are missing Git, try the following:
 
