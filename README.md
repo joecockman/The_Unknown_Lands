@@ -40,7 +40,7 @@ winget install --id Git.Git -e --source winget
 If your pc has winget installed this will install Git. If not Git can be downloaded from [this link](https://git-scm.com/downloads/win).
 
 ## Step 2: Navigate to Desired Download Folder.
-In your terminal / command prompt, navigate to the folder you would like to download to using the cd command:
+In your terminal / command prompt, the next step is to navigate to the folder that you would like to download the game into. To do this you can use the following cd command. For example, if you want to download the game to your desktop, you can use the example below. Remember to replace 'name' with your own name.
 
 Mac example: 
 ```
@@ -50,13 +50,17 @@ Windows example:
 ```
 cd \Users\name\Desktop
 ```
+If you're not sure what your name is in this context, use the following command to find out:
+```
+whoami
+```
 ## Step 3: Clone the Github Repository.
 In your terminal / command prompt, clone the github repository into your desired folder using the following command:
 ```
 git clone <https://github.com/joecockman/The-Unknown-Lands>
 ```
 ## Step 4: Navigate to the Game Folder.
-Now the game is downloaded, navigate to that folder using the cd command:
+Now the game is downloaded, navigate to that folder using the following cd command:
 
 Mac example:
 ```
