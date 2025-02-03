@@ -12,11 +12,33 @@ Creating this game has been an incredibly useful and enjoyable practice of using
 
 ## Step 1: Install Required Software.
 Before running the game, ensure you have the following installed by opening the terminal / command prompt and typing the following:
+
+Python 3.12
 ```
-Python 3.12 (Check with: python3 --version)
-pip (Check with: pip3 --version)
-Git (Check with: git --version)
+python3 --version
 ```
+pip
+```
+pip3 --version
+```
+Git
+```
+git --version
+```
+If you are missing python and pip, go to [this link](https://www.python.org/downloads/) to download the latest version of python. pip should also be downnloaded with this. Run the above codes again after download to check it has been successful.
+
+If you are missing Git, try the following:
+
+For Mac users:
+```
+xcode-select --install
+```
+For Windows users: 
+```
+winget install --id Git.Git -e --source winget
+```
+If your pc has winget installed this will install Git. If not Git can be downloaded from [this link](https://git-scm.com/downloads/win).
+
 ## Step 2: Navigate to Desired Download Folder.
 In your terminal / command prompt, navigate to the folder you would like to download to using the cd command:
 
@@ -84,9 +106,9 @@ collected_items = {"cool rock - cave entrance": None, "cool rock - secret room":
 characters = {"knight": None}
 total_dance_score = 0
 ```
-Inventory is set as an empty dictionary which is updated when items are found using the add_to_inventory() function, detailed below. 'Achievements' works in the same way, storing achievements that are printed at the time and then published in full at the end of the game.
+Inventory is set as an empty dictionary which is updated when items are found using the add_to_inventory() function, detailed below.
 
-The 'collected_items' dictionary sets all items in the game to have a value of 'None'. When the player finds them, the value is changed to 'Found'. I then built my functions to behave differently if the item was found or not found, preventing players from finding the same items over and over again. This is similar for the 'characters' dictionary, which ensures characters you meet are not greeting you over and over again.
+The 'collected_items' dictionary sets all items in the game to have a value of 'None'. When the player finds them, the value is changed to 'Found'. I then built my functions to behave differently if the item was found or not found, preventing players from finding the same items over and over again. This is similar for the 'characters' 'achievements' dictionaries, which ensures characters/achievements are not met/awarded over and over again.
 
 # Inventory + Item Related Functions
 ```
